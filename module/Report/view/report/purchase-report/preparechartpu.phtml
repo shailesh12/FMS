@@ -1,0 +1,69 @@
+
+<script type="text/javascript">
+<?php
+$totalExpense = $data['totalPurchase'][0]['SUM'];
+$perUserExpense = $totalExpense / 6;
+?>
+
+    google.load("visualization", "1", {packages: ["corechart"]});
+    google.setOnLoadCallback(drawVisualization);
+
+    function drawVisualization() {
+        // Some raw data (not necessarily accurate)
+
+        var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn('string', 'Purchaser');
+        dataTable.addColumn('number', 'EXPEND');
+        //dataTable.addColumn({type: 'number', role: 'annotation'});
+        dataTable.addColumn('number', 'SHOULD EXPEND');
+        //dataTable.addColumn({type: 'number', role: 'annotation'});
+        // Use custom HTML content for the domain tooltip.
+        //dataTable.addColumn({'type': 'string', 'role': 'tooltip', 'p': {'html': true}});
+
+        dataTable.addRows([
+<?php
+foreach ($data['purchaseData'] as $values) {
+    ?>
+                ["<?php echo $values['name']; ?>", <?php echo $values['Amount']; ?>, <?php echo $perUserExpense; ?>],
+    <?php
+}
+?>
+
+        ]);
+
+
+
+        var options = {
+            height: 400,
+            vAxis: {title: "Amount (INR)",
+                viewWindow: {
+                    min: 0
+                },
+                //titleTextStyle: {italic: false, fontName: 'openSansRegular', fontSize: '12px', color: '#6f7b8a'},
+                //textStyle: {fontName: 'openSansRegular', fontSize: '12px', color: '#6f7b8a'},
+                //format: '0'
+                gridlines: {color: '#f3f3f3'}
+            },
+            hAxis: {title: "Purchaser",
+                //titleTextStyle: {italic: false, fontName: 'openSansRegular', fontSize: '12px', color: '#6f7b8a'},
+                //textStyle: {fontName: 'openSansRegular', fontSize: '12px', color: '#6f7b8a'},
+            },
+            width: 1100,
+            colors: ['#8ec8f1', '#fea5a5'],
+            seriesType: "bars",
+            orientation: 'horizontal',
+            //series: {2: {type: "line", pointSize: 9, pointsVisible: true}},
+            //focusTarget: 'category',
+            //tooltip: {isHtml: true},
+            //width: dataTable.getNumberOfRows() * 20,
+            //bar: {groupWidth: 50},
+            legend: 'top',
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('tr_chart_div'));
+        chart.draw(dataTable, options);
+    }
+
+</script>
+
+<div id="tr_chart_div"></div>

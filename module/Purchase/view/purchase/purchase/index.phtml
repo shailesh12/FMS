@@ -1,0 +1,67 @@
+<?php
+//$this->inlineScript()->appendFile('../js/fms_js/pager.js');
+$title = 'Manage Purchase Item';
+$this->headTitle($title);
+
+//echo "<pre />";
+//print_r($data);
+//die;
+?>
+
+<a class="green-btn big-btn" href="<?php echo $this->url('purchase', array('action' => 'add')); ?>">ADD ITEM</a>
+
+
+
+<div id="grid-list">
+    <table  class="table sector-listing" id="results">
+        <thead>
+            <tr>
+                <th class="id">
+                    ID
+                </th>
+                <th class="name">
+                    NAME
+                </th>
+                <th class="description">
+                    PRICE
+                </th>
+                <th class="visibility">
+                    PURCHASE BY
+                </th>        
+                <th class="actions">PURCHASE DATE</th>
+                <th class="actions">ACTION</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            foreach ($this->data as $item) : // <-- change here! 
+                ?>
+                <tr>
+                    <?php //echo '<pre>'; print_r($sector); die; ?>
+                    <td class="id"><?php echo $this->escapeHtml($item['id']); ?></td>
+                    <td class="name"><?php echo $this->escapeHtml($item['item_name']); ?></td>
+                    <td class="description"><?php echo $this->escapeHtml($item['price']); ?></td>
+                    <td class="visibility"><?php echo $this->escapeHtml($item['name']); ?></td>
+                    <td class="visibility"><?php echo $this->escapeHtml($item['purhcase_date']); ?></td>
+                    <td class="actions">
+                        <a href="<?php echo $this->url('purchase', array('action' => 'edit', 'id' => $item['id'])); ?>">
+                            <span class="edit-icon" title="edit">EDIT</span>
+                        </a>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    <div id="pageNavPosition"></div>
+
+</div>
+<script type="text/javascript"><!--
+    var pager = new Pager('results', 10);
+    pager.init();
+    pager.showPageNav('pager', 'pageNavPosition');
+    pager.showPage(1);
+//--></script>
+
+
+
+

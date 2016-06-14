@@ -1,0 +1,89 @@
+<?php
+$form = $this->form;
+$form->prepare();
+$title = 'Set Password';
+$this->headTitle($title);
+$errMsg = $this->errRecVar;
+$errorflashMessage = $this->flashMessenger()->getCurrentMessagesFromNamespace('error');
+?>
+
+
+
+
+<script>
+    $(document).ready(function() {
+        /**
+         * Function to validate the assessment form
+         */
+        $('#rl-form').validate({
+            rules: {
+                password: {
+                    required: true,
+                    passwordCheck: true,
+                },
+                repassword: {
+                    required: true,
+                    matchPass: true,
+                },
+            },
+            messages: {
+                password: {
+                    required: "Please enter password.",
+                },
+                repassword: {
+                    required: "Please re-enter the password.",
+                },
+            }
+        });
+
+        jQuery.validator.addMethod("passwordCheck", function(value, element) {
+            var pass_length = value.length;
+            if (pass_length >= 8 && pass_length <= 20) {
+                return true;
+            }
+        }, "Password should be atleast 8 characters and maximum of 20 characters!");
+
+        jQuery.validator.addMethod("matchPass", function(value, element) {
+            var Pass = $('#password').val().trim();
+            if (value == '' || Pass == value) {
+                return true;
+            }
+        }, "Password and Retype Password does not match!");
+    });
+</script>
+<?php if (empty($errorflashMessage)) {  ?>
+            <div id="global-success-msg-page" class="global-page-success"><?php echo $this->flashMessage(); ?></div>
+        <?php } else { ?>
+            <div id="global-error-msg-page"   class="global-page-error"><?php
+                foreach ($errorflashMessage as $errMsg) {
+                    echo $errMsg;
+                }
+                ?></div>
+        <?php } ?>
+
+<div class="full_height">
+
+
+    <div class="login_base">
+      
+      
+        <div class="logo"></div>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><?php echo $this->escapeHtml($title); ?></h3>
+            </div>
+            <div class="panel-body">
+                <div class="register-container" id="activateForm">
+                    <form class="rl-form" name="rl-form" id="rl-form" method="post">
+                        <label class="label">Password</label>
+                        <p><?php echo $this->formElement($form->get('password')); ?></p>
+                        <label class="label">Retype-password</label>
+                        <p><?php echo $this->formElement($form->get('repassword')); ?></p>		
+                        <p><?php echo $this->formElement($form->get('submit')); ?></p>                                                    
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

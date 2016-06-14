@@ -1,0 +1,98 @@
+<style>
+    .trainees_distribution ul{
+        list-style: none;
+    }
+
+
+    #chart svg {
+        height: 350px;
+    }
+
+    .nv-label text{
+        font-family: Droid Sans;
+    }
+
+</style>
+<div>
+    <div class="chart-wrapper clearfix">
+        <div class="preloader-container"  style="display:none;">
+            <div class="preloader"></div>
+        </div>
+        <div class="clearfix graph-headings">
+            <h4 class="h4">PURCHASE REPORT</h4>
+
+        </div>
+        <div class="chart-place" id='book-wise-time-distribution'>
+            <div id="chart">
+                <svg></svg>
+            </div>
+
+            <div class="trainees_distribution trainees-graph">
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function totalpurchasedata() {
+        return  [
+            {
+                "label": "Mohit Verma",
+                "value": <?php echo $data['purchaseData'][0]['Amount']; ?>
+            },
+            {
+                "label": "Mohit Thakur",
+                "value": <?php echo $data['purchaseData'][1]['Amount']; ?>
+            },
+            {
+                "label": "Shailesh Tyagi",
+                "value": <?php echo $data['purchaseData'][2]['Amount']; ?>
+            },
+            {
+                "label": "Sunil Tyagi",
+                "value": <?php echo $data['purchaseData'][3]['Amount']; ?>
+            },
+            {
+                "label": "Anil Tyagi",
+                "value": <?php echo $data['purchaseData'][4]['Amount']; ?>
+            },
+            {
+                "label": "Diwaker Sharma",
+                "value": <?php echo $data['purchaseData'][5]['Amount']; ?>
+            },
+        ];
+    }
+
+//    $("#trainee_enroll").text(<?php //echo $data['results'][0]['value'];    ?>);
+//    $("#trainee_not_enroll").text(<?php // echo $data['results'][1]['value'];    ?>);
+
+    // Center text allignment
+    var p = $("#chart");
+    var position = p.position();
+
+    var width = $("#chart").width();
+
+    var yval = position.top + width / 10;
+    var xval = position.left + width / 2.1;
+    var center_x = xval;
+    var center_y = yval;
+    var sum = <?php echo $data['totalPurchase'][0]['SUM']; ?>
+    //console.log(data);
+
+    d3.select('#chart svg')
+            .append("text")
+            .attr("x", xval - 100)
+            .attr("y", yval - 30)
+            .attr("text-anchor", "middle")
+            .attr("class", "big-font")
+            .text(sum);
+
+    d3.select('#chart svg')
+            .append("text")
+            .attr("x", xval - 100)
+            .attr("y", yval - 10)
+            .attr("text-anchor", "middle")
+            .attr("class", "small-font")
+            .text(" Total Purchase (INR)");
+
+
+</script>

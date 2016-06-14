@@ -1,0 +1,71 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.min.css" />
+<script src="http://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+<?php
+//$this->inlineScript()->appendFile('../js/jquery.min.js');
+$this->inlineScript()->appendFile('../js/fms_js/purchase.js');
+$title = 'Add Purchase Item';
+$this->headTitle($title);
+?>
+
+<section class="sub-header">
+    <div class="container">
+
+        <div class="sub-header-title">
+            <a class="back-icon" href="<?php echo $this->url('purchase', array('action' => 'index')); ?>"></a>
+        </div>
+        <div class="sub-header-actions"></div>
+    </div>
+</section>
+
+<div class="container">
+    <div class="forms" id="add-sector-form">
+        <div id="global-success-msg" class="success global-success"></div>
+        <div id="global-error-msg"   class="error global-error"><?php //echo $this->flashMessage();            ?></div>
+
+        <?php
+        $form = $this->form;
+        $form->setAttribute('action', $this->url('purchase', array('action' => 'add')));
+        $form->setAttribute('class', 'detect_changes');
+        $form->prepare();
+        echo $this->form()->openTag($form);
+        ?>
+        <?php
+        echo'</br></br>';
+        echo '<h2>Add Item </h2>';
+        echo'</br>';
+        echo '<b>Name:-</b>';
+        echo'</br>';
+        echo $this->formElement($form->get('item_name'));
+        echo'</br></br>';
+        echo '<b>Amount:-</b>';
+        echo'</br>';
+        echo $this->formElement($form->get('price'));
+        echo'</br></br>';
+        echo '<b>Date of Purchase:-</b>';
+        echo'</br>';
+        echo $this->formRow($form->get('purhcase_date'));
+        echo'</br></br>';
+        echo '<b>Purchased By:-</b>';
+        echo'</br>';
+        echo $this->formRow($form->get('purchased_by'));
+        echo'</br></br>';
+        echo '<b>Description:-</b>';
+        echo'</br>';
+        echo $this->formRow($form->get('comment'));
+        echo'</br></br>';
+        echo $this->formSubmit($form->get('submit'));
+        echo $this->form()->closeTag();
+        ?>
+
+
+
+        <?php /* ?><?php
+          echo $this->formRow($form->get('name')) . '<br /><br />';
+          echo $this->formRow($form->get('description')) . '<br /><br />';
+          echo $this->formRow($form->get('visibility')) . '<br />';
+          echo $this->formRow($form->get('submit')) . '<br />';
+          echo $this->form()->closeTag();
+          ?><?php */ ?>
+    </div>	
+</div>

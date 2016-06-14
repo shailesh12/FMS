@@ -1,0 +1,193 @@
+<?php $this->headScript()->appendFile($this->basePath() . '/js/radio-checkbox.js'); ?>
+
+<?php if (isset($this->successMessage)) { ?>
+    <div id="global-success-msg-page" class="global-page-success">
+        <?php echo $this->successMessage; ?>
+    </div>
+    <?php
+}
+?></div>
+
+<?php
+$flashMessage = $this->flashMessenger()->getMessages();
+$errorflashMessage = $this->flashMessenger()->getErrorMessages();
+
+if (count($flashMessage)) :
+    ?>
+    <div>
+        <ul id="global-error-msg-page" class="global-page-error">
+            <?php
+            foreach ($flashMessage as $msg) :
+                foreach ($msg as $type => $message) :
+                    ?>
+                    <li><span class="<?php echo $type; ?>"><?php echo $message; ?></span></li>
+                <?php endforeach; ?>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+    <?php if (isset($this->messages)) : ?>
+        <ul>
+            <?php foreach ($this->messages as $type => $msg) : ?>
+                <li><span class="<?php echo $type; ?>"><?php echo $msg; ?></span></li>
+            <?php endforeach; ?>
+        </ul>
+    <?php endif; ?>
+</div>
+<style>
+    .global-page-error, .global-page-success { text-transform:none!important }
+</style>
+
+<!--<div class="full_height">
+
+    <div class="login_base">
+
+<?php //if (empty($errorflashMessage)) { ?>
+            <div id="global-success-msg" class="success global-success"><?php //echo $this->flashMessage(); ?></div>
+
+<?php //} else { ?>
+            <div id="global-error-msg"   class="error global-error"><?php
+//foreach ($errorflashMessage as $errMsg) {
+//   echo $errMsg;
+//}
+//?></div>
+
+<?php //} ?>
+    </div>
+</div>-->
+<div class="logo"></div>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h3 class="panel-title">Login</h3>
+    </div>
+
+    <div class="panel-body">
+        <?php
+        $form = $this->loginForm;
+        $form->prepare();
+        echo $this->form()->openTag($form);
+        ?>
+
+        <?php echo $this->formlabel($form->get('email')); ?>
+
+        <p>
+            <?php echo $this->formElement($form->get('email')); ?>
+            <span class="common-error-msg"><?php echo $this->formElementErrors($form->get('email')); ?></span>
+        </p>
+
+
+        <?php echo $this->formlabel($form->get('password')); ?>
+        <p>
+            <?php echo $this->formElement($form->get('password')); ?>
+            <span class="common-error-msg"><?php echo $this->formElementErrors($form->get('password')); ?></span>
+        </p>
+        <!--<p> <label for ="remeber_check" >
+        <input id="remeber_check" name="" type="checkbox" value="" class="css-checkbox" />
+        Remember Me</label>
+        </p>-->
+
+        <p>
+        <div class="row">
+            <div class="col-xs-5"> <?php
+                echo $this->formRow($form->get('loginCsrf'));
+                echo $this->formElement($form->get('submit'));
+                ?></div><div class="col-xs-7 text-right"><a class="recover_link grey-anchor" href="<?php echo $this->url('login', array('action' => 'recoverlink'));
+                ?>">Did you forgot your password ?</a></div></p>
+
+            <?php
+            echo $this->form()->closeTag($form);
+            ?>
+        </div>
+
+    </div>
+</div>
+
+<div class="version-number">Version: 1.1.17.3</div>
+
+
+
+<script type="text/javascript">
+    //validation for no 
+    $(document).ready(function () {
+        $('#loginForm').validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: true
+                },
+                password: {
+                    required: true,
+                }
+
+            },
+            messages: {
+                email: {
+                    required: "Please enter email id.",
+                    email: "Please enter valid email id.",
+                },
+                password: {
+                    required: "Please enter password.",
+                }
+            }
+        });
+
+    });
+
+
+//            var checkExistingSessionsss = function () {
+//               $('#loginForm').valid();
+//               var email = $('#email').val();
+//               if (email != '') {
+//                   $.ajax({
+//                       type: "POST",
+//                       url: app.base_url + "/login/checksinglesession",
+//                       async: false,
+//                       data: {'email': email},
+//                       success: function (result) {                           
+//                           if (result > 0 ) { 
+//                               var retVal = confirm("You are already logged in. Click 'Ok' to continue and logout from other logged in sessions.");
+//                               if(retVal==false) { 
+//                                   event.preventDefault();
+//                                    return false;
+//                               }  else { 
+//                                   return true;
+//                               }
+//                           } else { 
+//                               return true;
+//                           }
+//                       },
+//                   });
+//               }
+//            }
+
+
+    $("#loginForm").on("submit", function (event) {
+        $('#loginForm').valid();
+        var email = $('#email').val();
+        if (email != '') {
+            $.ajax({
+                type: "POST",
+                url: app.base_url + "/login/checksinglesession",
+                async: false,
+                data: {'email': email},
+                success: function (result) {
+                    if (result > 0) {
+                        var retVal = confirm("You are already logged in. Click 'Ok' to continue and logout from other logged in sessions.");
+                        if (retVal == false) {
+                            event.preventDefault();
+                            return false;
+                        } else {
+                            return true;
+                        }
+                    } else {
+                        return true;
+                    }
+                },
+            });
+        }
+    });
+
+
+
+
+
+</script> 

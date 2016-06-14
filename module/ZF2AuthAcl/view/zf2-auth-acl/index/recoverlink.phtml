@@ -1,0 +1,69 @@
+<?php
+$form = $this->form;
+$form->prepare();
+$title = 'Forgot Password';
+$this->headTitle($title);
+$errMsg = $this->errRecVar;
+?>
+<div class="full_height">
+    <div class="login_base">
+        <div class="logo"></div>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+             <a class="forgot-back-icon" href="<?php echo $this->url('login', array('action' => 'index')); ?>"></a>
+                <h3 class="panel-title"><?php echo $this->escapeHtml($title); ?></h3>
+            </div>
+            <div class="panel-body">
+                <div class="register-container" id="recoverlinkForm">
+                    <p>Enter the email address you used when you joined and 
+                        we’ll send you instructions to reset your password.</p>
+                    <form class="rl-form" name="rl-form" id="rl-form" method="post">
+
+                        <label class="label">Email</label>	<p><?php echo $this->formRow($form->get('email')); ?></p>
+                        <?php if ($errMsg != '0') { ?>
+                            <div class="reg23_error">
+                                
+                                    <?php if ($errMsg == '1') { ?> 
+                                        <p class="error-text">Please fill in the email.</p>
+                                    <?php } else if ($errMsg == '2') { ?>
+                                        <p class="error-text">Please enter a valid email address.</p>
+                                    <?php } else if ($errMsg == '3') { ?>
+                                        <p class="error-text">This email address does not exist in our system.</p>
+                                    <?php } else if ($errMsg == '4') { ?>
+                                        <p class="success-text">An email has been sent to your email address to recover your password.</p>
+                                    <?php } else if ($errMsg == '5') { ?>
+                                        <p class="error-text">User for the provided email address is not active</p>
+                                    <?php } ?>
+                                
+                            </div>
+                        <?php } ?>
+                        <p><?php echo $this->formSubmit($form->get('submit')); ?></p>                                                    
+                    </form>
+                </div>
+
+                <p></p>
+
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    //validation for no 
+    $(document).ready(function() {
+        $('#rl-form').validate({
+        rules: {
+            email: {
+                required: true,                
+                email: true
+            },                       
+        },
+        messages: {
+            email: {
+                required: "Please enter email id.",
+                email: "Please enter valid email id.",                
+            },          
+        }
+    });
+        
+    });
+</script> 

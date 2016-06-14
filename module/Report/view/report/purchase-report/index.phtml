@@ -1,0 +1,46 @@
+<?php
+$this->headScript()->appendFile($this->basePath() . '/js/fms_js/d3.js');
+$this->headLink()->prependStylesheet($this->basePath() . '/nvd3/build/nv.d3.css');
+$this->headScript()->appendFile($this->basePath() . '/nvd3/build/nv.d3.js');
+$this->headScript()->appendFile($this->basePath() . '/js/fms_js/purchasereport.js');
+?>
+<!--    <script type="text/javascript" src="https://www.google.com/jsapi"></script>-->
+<script type="text/javascript"
+        src='https://www.google.com/jsapi?autoload={"modules":[{"name":"visualization","version":"1","packages":["corechart"]}]}'>
+</script>
+
+<section class="sub-header">
+    <div class="container">
+        <div class="sub-header-title">
+            <span class="manage-reports-icon"></span>
+            <?php
+            $title = 'Purchase Report';
+            $this->headTitle($title);
+            $data = $this->data;
+            ?>
+        </div>
+
+    </div>
+</section>
+<div class="container">
+
+    <!-- TOTAL PURCHASE START -->
+    <div id="c-one" class="total-trainee-chart trainee-charts">
+        <?php
+        echo $this->partial('totalpurchase', array('data' => $data));
+        ?>
+    </div>
+    <!-- TOTAL PURCHASE ENDS -->
+
+    <!-- TOTAL PURCHASE BY USER START -->
+    <div id="chart_one_TR" class="graph-container">
+        <div class="graph-headings"><h4 class="h4">TOTAL PURCHASE BY USER</h4></div>
+        <?php
+        echo $this->partial('preparechartpu', array('data' => $data))
+        ?>
+
+    </div>
+
+    <!-- TOTAL PURCHASE BY USER END -->
+
+</div>
